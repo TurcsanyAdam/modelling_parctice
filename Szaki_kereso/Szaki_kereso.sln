@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Szaki_kereso", "Szaki_kereso.csproj", "{E8C3FC58-2EA8-4F1A-BB05-8F3B5B5BAC73}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Szaki_kereso_console", "..\Szaki_kereso_console\Szaki_kereso_console.csproj", "{E5B1839C-1C42-4B5B-8232-7D103559D424}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8C3FC58-2EA8-4F1A-BB05-8F3B5B5BAC73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8C3FC58-2EA8-4F1A-BB05-8F3B5B5BAC73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8C3FC58-2EA8-4F1A-BB05-8F3B5B5BAC73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8C3FC58-2EA8-4F1A-BB05-8F3B5B5BAC73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5B1839C-1C42-4B5B-8232-7D103559D424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5B1839C-1C42-4B5B-8232-7D103559D424}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5B1839C-1C42-4B5B-8232-7D103559D424}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5B1839C-1C42-4B5B-8232-7D103559D424}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {31746A8E-9A27-4248-B1F2-84ABB440ADCB}
+	EndGlobalSection
+EndGlobal

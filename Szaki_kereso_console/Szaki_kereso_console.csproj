@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Szaki_kereso\Szaki_kereso.csproj" />
+    <ProjectReference Include="..\Szaki_kereso_DLL\Szaki_kereso_DLL.csproj" />
+  </ItemGroup>
+
+</Project>
