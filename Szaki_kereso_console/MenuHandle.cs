@@ -59,16 +59,16 @@ namespace Szaki_kereso_console
         public void LoginMenu(Login login, User user, Serializer serializer)
         {
 
-
             while (true)
             {
                 Console.Clear();
                 ILogger logger = new ConsoleLogger();
                 string menu =
-                "1 - Find closest handyman\n" +
+                user.ToString()+
+                "\n1 - Find closest handyman\n" +
                 "2 - Find handymen in radius\n" +
                 "3 - Search handyman by username\n" +
-                "4 - Search handyman by profession\n" +
+                "4 - Search handyman by specialization\n" +
                 "5 - Top up balance\n" +
                 "6 - Update account information\n" +
                 "7 - Back to main menu";
@@ -89,18 +89,26 @@ namespace Szaki_kereso_console
                         break;
                     case 2:
                         Console.Write("Enter radius to search for handymen: ");
-                        double radius = int.Parse(Console.ReadLine());
-                        DistanceProcess distance1 = new DistanceProcess();
-                        var b = distance1.GetHandymanInRadius(user, login, radius);
-                        b.Wait();
-                        Dictionary<Handyman, double> c = new Dictionary<Handyman, double>();
-                        foreach (var aDict in b.Result)
+                        bool isRadius = double.TryParse(Console.ReadLine(),out double radius);
+                        if (isRadius)
                         {
-                            c.Add(aDict.Key, aDict.Value);
+                            DistanceProcess distance1 = new DistanceProcess();
+                            var handymenInRadiusResult = distance1.GetHandymanInRadius(user, login, radius);
+                            handymenInRadiusResult.Wait();
+                            Dictionary<Handyman, double> handymenInRadiusResultDictionary = new Dictionary<Handyman, double>();
+                            foreach (var dict in handymenInRadiusResult.Result)
+                            {
+                                handymenInRadiusResultDictionary.Add(dict.Key, dict.Value);
+                            }
+                            WriteHandymanInRadiusToFile(handymenInRadiusResultDictionary);
+                            logger.Info("Done! Press ENTER to proceed!");
+                            Console.ReadLine();
                         }
-                        WriteHandymanInRadiusToFile(c);
-                        logger.Info("Data added to file! Press ENTER to proceed!");
-                        Console.ReadLine();
+                        else
+                        {
+                            throw new ArgumentException("Not a valid input");
+                        }
+
                         break;
                     case 3:
                         Console.Write("Enter username of handymen: ");
@@ -110,11 +118,24 @@ namespace Szaki_kereso_console
 
                         break;
                     case 4:
+                        Console.Write("Enter specialization of handymen: ");
+                        string handymanSpecialization = Console.ReadLine();
+                        DistanceProcess distance3 = new DistanceProcess();
+                        _ = distance3.GetHandymanByProfession(user, login, handymanSpecialization);
+                        Console.ReadLine();
                         break;
                     case 5:
                         Console.Write("Enter amount to upload to your balance: ");
-                        int topUp = int.Parse(Console.ReadLine());
-                        user.AddMoney(topUp);
+                        bool topUp = int.TryParse(Console.ReadLine(), out int topup);
+                        if (topUp)
+                        {
+                            user.AddMoney(topup);
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Not a valid input");
+                        }
+
                         serializer.SaveData(login);
                         break;
                     case 6:
