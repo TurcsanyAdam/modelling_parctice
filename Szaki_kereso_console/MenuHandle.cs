@@ -115,7 +115,8 @@ namespace Szaki_kereso_console
                         string handymanUsername = Console.ReadLine();
                         DistanceProcess distance2 = new DistanceProcess();
                         _ = distance2.GetHandymanByUsername(user, login, handymanUsername);
-
+                        logger.Info("Press ENTER to proceed!");
+                        Console.ReadLine();
                         break;
                     case 4:
                         Console.Write("Enter specialization of handymen: ");

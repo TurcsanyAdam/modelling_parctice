@@ -141,6 +141,7 @@ namespace Szaki_kereso
                 File.AppendAllText(filepath, loginDetails);
                 User user = new User(username, firstName, lastName, age, email, adress);
                 UserList.Add(user);
+                Utility.SendMail(email);
 
 
             }
