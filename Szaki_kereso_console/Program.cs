@@ -21,8 +21,7 @@ namespace Szaki_kereso_console
 
                 serializer.DeserializerHandyMen(login);
                 serializer.DeserializerUser(login);
-                MenuHandle menu = new MenuHandle(logger);
-                menu.HandleMenu(login,serializer);
+                MenuHandle menu = new MenuHandle(logger,login,serializer);
             }
             catch(Exception ex)
             {

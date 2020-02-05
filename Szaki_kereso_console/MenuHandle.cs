@@ -8,11 +8,19 @@ namespace Szaki_kereso_console
     public class MenuHandle
     {
         ILogger logger;
-        public MenuHandle(ILogger logger)
+        DistanceProcess distanceProcess = null;
+        User currentUser;
+        Login login;
+        Serializer serializer;
+        HandymanProcessor handymanProcessor;
+        public MenuHandle(ILogger logger, Login login, Serializer serializer)
         {
             this.logger = logger;
+            this.login = login;
+            this.serializer = serializer;
+            HandleMenu();
         }
-        public void HandleMenu(Login login, Serializer serializer)
+        public void HandleMenu()
         {
             while (true)
             {
@@ -32,8 +40,10 @@ namespace Szaki_kereso_console
                 {
                     case 1:
                         string username = login.UserLogin(login.loginInfo);
-                        User user = (login.UserList).Find(x => x.Username == username);
-                        LoginMenu(login, user, serializer);
+                        currentUser = (login.UserList).Find(x => x.Username == username);
+                        distanceProcess = new DistanceProcess(currentUser, login);
+                        handymanProcessor = new HandymanProcessor();
+                        LoginMenu(login, serializer);
                         break;
                     case 2:
                         login.RegisterUser();
@@ -56,7 +66,7 @@ namespace Szaki_kereso_console
 
 
         }
-        public void LoginMenu(Login login, User user, Serializer serializer)
+        public void LoginMenu(Login login, Serializer serializer)
         {
 
             while (true)
@@ -64,7 +74,7 @@ namespace Szaki_kereso_console
                 Console.Clear();
                 ILogger logger = new ConsoleLogger();
                 string menu =
-                user.ToString()+
+                currentUser.ToString()+
                 "\n1 - Find closest handyman\n" +
                 "2 - Find handymen in radius\n" +
                 "3 - Search handyman by username\n" +
@@ -81,9 +91,7 @@ namespace Szaki_kereso_console
                 switch (userChocie)
                 {
                     case 1:
-                        DistanceProcess distance = new DistanceProcess();
-                        var a = distance.GetClosestHandyman(user, login);
-                        a.Wait();
+                        handymanProcessor.GetClosestHandyman(distanceProcess);
                         logger.Info("Work done! Transaction complete.  Press ENTER to proceed!");
                         Console.ReadLine();
                         break;
@@ -92,15 +100,7 @@ namespace Szaki_kereso_console
                         bool isRadius = double.TryParse(Console.ReadLine(),out double radius);
                         if (isRadius)
                         {
-                            DistanceProcess distance1 = new DistanceProcess();
-                            var handymenInRadiusResult = distance1.GetHandymanInRadius(user, login, radius);
-                            handymenInRadiusResult.Wait();
-                            Dictionary<Handyman, double> handymenInRadiusResultDictionary = new Dictionary<Handyman, double>();
-                            foreach (var dict in handymenInRadiusResult.Result)
-                            {
-                                handymenInRadiusResultDictionary.Add(dict.Key, dict.Value);
-                            }
-                            WriteHandymanInRadiusToFile(handymenInRadiusResultDictionary);
+                            WriteHandymanInRadiusToFile(handymanProcessor.GetHandymanInRadius(distanceProcess, radius));
                             logger.Info("Done! Press ENTER to proceed!");
                             Console.ReadLine();
                         }
@@ -113,16 +113,14 @@ namespace Szaki_kereso_console
                     case 3:
                         Console.Write("Enter username of handymen: ");
                         string handymanUsername = Console.ReadLine();
-                        DistanceProcess distance2 = new DistanceProcess();
-                        _ = distance2.GetHandymanByUsername(user, login, handymanUsername);
+                        Console.WriteLine(handymanProcessor.GetHandymanByUsername(distanceProcess, handymanUsername)); 
                         logger.Info("Press ENTER to proceed!");
                         Console.ReadLine();
                         break;
                     case 4:
                         Console.Write("Enter specialization of handymen: ");
                         string handymanSpecialization = Console.ReadLine();
-                        DistanceProcess distance3 = new DistanceProcess();
-                        _ = distance3.GetHandymanByProfession(user, login, handymanSpecialization);
+                        handymanProcessor.GetHandymanByUsername(distanceProcess, handymanSpecialization);
                         Console.ReadLine();
                         break;
                     case 5:
@@ -130,7 +128,7 @@ namespace Szaki_kereso_console
                         bool topUp = int.TryParse(Console.ReadLine(), out int topup);
                         if (topUp)
                         {
-                            user.AddMoney(topup);
+                            currentUser.AddMoney(topup);
                         }
                         else
                         {
@@ -140,10 +138,17 @@ namespace Szaki_kereso_console
                         serializer.SaveData(login);
                         break;
                     case 6:
-                        UpdateAccountInformation(user);
+                        UpdateAccountInformation(currentUser);
                         break;
                     case 7:
-                        HandleMenu(login, serializer);
+                        HandleMenu();
+                        break;
+                    case 8:
+                        foreach(KeyValuePair<Handyman,double> kvp in distanceProcess.handymenWithRadius)
+                        {
+                            Console.WriteLine($"{kvp.Key.Username} is {kvp.Value} km away from you");
+                        }
+                        Console.ReadLine();
                         break;
                     default:
                         Console.WriteLine("Not a valid input");
