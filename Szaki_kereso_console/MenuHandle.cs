@@ -40,7 +40,7 @@ namespace Szaki_kereso_console
                 {
                     case 1:
                         string username = login.UserLogin(login.loginInfo);
-                        currentUser = (login.UserList).Find(x => x.Username == username);
+                        this.currentUser = (login.UserList).Find(x => x.Username == username);
                         distanceProcess = new DistanceProcess(currentUser, login);
                         handymanProcessor = new HandymanProcessor();
                         LoginMenu(login, serializer);
@@ -91,8 +91,19 @@ namespace Szaki_kereso_console
                 switch (userChocie)
                 {
                     case 1:
-                        handymanProcessor.GetClosestHandyman(distanceProcess);
-                        logger.Info("Work done! Transaction complete.  Press ENTER to proceed!");
+                        Dictionary<Handyman, double> ClosestHandyman = handymanProcessor.GetClosestHandyman(distanceProcess);
+                        foreach (KeyValuePair<Handyman, double> kvp in ClosestHandyman )
+                        {
+                            Console.WriteLine($"{kvp.Key.Username} is {kvp.Value/1000} km away from you. Working fee: {kvp.Key.WorkingFee}");
+                            Console.Write($"Do you want to work with {kvp.Key.Username} ? ");
+                            string wantToWorkClosest = Console.ReadLine();
+                            if(wantToWorkClosest.ToLower() == "yes")
+                            {
+                                kvp.Key.Work(currentUser);
+                                logger.Info("Work done! Transaction complete.  Press ENTER to proceed!");
+
+                            }
+                        }
                         Console.ReadLine();
                         break;
                     case 2:
@@ -100,7 +111,8 @@ namespace Szaki_kereso_console
                         bool isRadius = double.TryParse(Console.ReadLine(),out double radius);
                         if (isRadius)
                         {
-                            WriteHandymanInRadiusToFile(handymanProcessor.GetHandymanInRadius(distanceProcess, radius));
+                            Dictionary<Handyman, double> ClosestHandymanInRadius = handymanProcessor.GetHandymanInRadius(distanceProcess, radius);
+                            WriteHandymanInRadiusToFile(ClosestHandymanInRadius);
                             logger.Info("Done! Press ENTER to proceed!");
                             Console.ReadLine();
                         }
@@ -113,14 +125,28 @@ namespace Szaki_kereso_console
                     case 3:
                         Console.Write("Enter username of handymen: ");
                         string handymanUsername = Console.ReadLine();
-                        Console.WriteLine(handymanProcessor.GetHandymanByUsername(distanceProcess, handymanUsername)); 
+                        Handyman handymanByUsername = handymanProcessor.GetHandymanByUsername(distanceProcess, handymanUsername); 
+                        Console.Write($"Do you want to work with {handymanByUsername.Username} for working fee: {handymanByUsername.WorkingFee}? ");
+                        string wantToWorkName = Console.ReadLine();
+                        if(wantToWorkName.ToLower() == "yes")
+                        {
+                            handymanByUsername.Work(currentUser);
+                            logger.Info("Work done! Transaction complete.  Press ENTER to proceed!");
+
+                        }
                         logger.Info("Press ENTER to proceed!");
                         Console.ReadLine();
                         break;
                     case 4:
                         Console.Write("Enter specialization of handymen: ");
                         string handymanSpecialization = Console.ReadLine();
-                        handymanProcessor.GetHandymanByUsername(distanceProcess, handymanSpecialization);
+                        Dictionary<Handyman, double> handymanBySpecialization = handymanProcessor.GetHandymanBySpecialization(distanceProcess, handymanSpecialization);
+                        foreach (KeyValuePair<Handyman, double> kvp in handymanBySpecialization)
+                        {
+                            Console.WriteLine($"{kvp.Key.Username} - {kvp.Key.Specialization}");
+                        }
+
+                        logger.Info("Press ENTER to proceed!");
                         Console.ReadLine();
                         break;
                     case 5:

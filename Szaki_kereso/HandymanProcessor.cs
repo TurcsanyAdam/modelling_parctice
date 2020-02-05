@@ -6,21 +6,23 @@ namespace Szaki_kereso
 {
     public class HandymanProcessor
     {
-        public string GetClosestHandyman(DistanceProcess distanceProcess)
+        public Dictionary<Handyman, double> GetClosestHandyman(DistanceProcess distanceProcess)
         {
+            Handyman closestHandyman = null;
             double distance = 0;
-            string handymanUsername = "";
+            
 
             foreach (KeyValuePair<Handyman, double> kvp in distanceProcess.handymenWithRadius)
             {
                 if (kvp.Value < distance || distance == 0)
                 {
                     distance = kvp.Value;
-                    handymanUsername = kvp.Key.Username;
+                    closestHandyman = kvp.Key;
                 }
             }
-            string result = $"\nYou are {Math.Round(distance / 1000, 2)} km away from the closest handyman - {handymanUsername}";
-            return result;
+            Dictionary<Handyman, double> closestHandymanWithRadius = new Dictionary<Handyman, double>();
+            closestHandymanWithRadius.Add(closestHandyman, distance);
+            return closestHandymanWithRadius;
 
         }
 
@@ -30,39 +32,41 @@ namespace Szaki_kereso
 
             foreach (KeyValuePair<Handyman, double> kvp in distanceProcess.handymenWithRadius)
             {
-                if (kvp.Value <= distance)
+                if (kvp.Value/1000 <= distance)
                 {
-                    handymenInRadius.Add(kvp.Key, kvp.Value);
+                    handymenInRadius.Add(kvp.Key, kvp.Value/1000);
                 }
             }
 
             return handymenInRadius;
         }
 
-        public string GetHandymanByUsername(DistanceProcess distanceProcess, string username)
+        public Handyman GetHandymanByUsername(DistanceProcess distanceProcess, string username)
         {
             foreach (KeyValuePair<Handyman, double> kvp in distanceProcess.handymenWithRadius)
             {
                 if (kvp.Key.Username == username)
                 {
-                    return kvp.Key.ToString();
+                    return kvp.Key;
                 }
 
             }
             throw new ArgumentException ("Handyman not in database");
 
         }
-        public string GetHandymanBySpecialization(DistanceProcess distanceProcess, string specialization)
+        public Dictionary<Handyman, double> GetHandymanBySpecialization(DistanceProcess distanceProcess, string specialization)
         {
+            Dictionary<Handyman, double> handymenBySpecialization = new Dictionary<Handyman, double>();
+
             foreach (KeyValuePair<Handyman, double> kvp in distanceProcess.handymenWithRadius)
             {
                 if (kvp.Key.Specialization == specialization)
                 {
-                    return kvp.Key.ToString();
+                    handymenBySpecialization.Add(kvp.Key, kvp.Value / 1000);
                 }
-
             }
-            throw new ArgumentException("No handyman with the given specialization in database");
+
+            return handymenBySpecialization;
 
         }
     }

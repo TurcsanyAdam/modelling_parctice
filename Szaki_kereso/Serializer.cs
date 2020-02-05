@@ -10,8 +10,8 @@ namespace Szaki_kereso
 {
     public class Serializer
     {
-        public string filepathUser = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "User_data.xml");
-        public string filepathHandyman = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Handyman.xml");
+        private string filepathUser = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "User_data.xml");
+        private string filepathHandyman = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Handyman.xml");
 
 
         public void SaveData(Login login)

@@ -24,7 +24,7 @@ namespace Szaki_kereso
             {
                 string origin = user.Adress;
                 string destination = handyman.Adress;
-                string APIKey = "AIzaSyA2VDeHXyseqIZ6PDPjBNIVmWXBeOeMT8w";
+                string APIKey = Environment.GetEnvironmentVariable("GoogleMapsAPI");
                 string url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + origin + "&destinations=" + destination +
                 "&key=" + APIKey;
 

@@ -9,13 +9,12 @@ namespace Szaki_kereso
     {
 
         public List<User> UserList = new List<User>();
-        public IReadOnlyList<User> userList { get { return UserList; } }
 
-        private Dictionary<string, string> LoginInfo = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> LoginInfo = new Dictionary<string, string>();
         public IReadOnlyDictionary<string, string> loginInfo { get { return LoginInfo; } }
 
-        public List<Handyman> HandymanList = new List<Handyman>();
-        public IReadOnlyList<Handyman> handymanList { get { return HandymanList; } }
+        internal List<Handyman> HandymanList = new List<Handyman>();
+        internal IReadOnlyList<Handyman> handymanList { get { return HandymanList; } }
         public Login()
         {
             GenerateUserPasswordPairs();

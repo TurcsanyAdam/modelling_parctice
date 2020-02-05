@@ -7,7 +7,7 @@ namespace Szaki_kereso
 {
     public abstract class FileHandling
     {
-        public string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        protected string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
         public abstract void WriteToFile(Dictionary<Handyman, double> handymenInRadius);
 

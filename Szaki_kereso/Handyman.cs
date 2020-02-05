@@ -16,6 +16,7 @@ namespace Szaki_kereso
         public string Adress { get; set; }
         public string Specialization { get; set; }
         public int Money { get; set; }
+        public int WorkingFee { get; set; }
         public Handyman(string aUsername, string aFirstName, string aLastName, int aAge, string aEmail, string aAdress, string aSpecialization)
         {
             Username = aUsername;
@@ -25,14 +26,16 @@ namespace Szaki_kereso
             Email = aEmail;
             Adress = aAdress;
             Specialization = aSpecialization;
+            Random rand = new Random();
+            WorkingFee = rand.Next(1, 100) * 10;
         }
 
-        public void Work(User user, int workingFee)
+        public void Work(User user)
         {
-            if(workingFee <= user.Money)
+            if(WorkingFee <= user.Money)
             {
-                user.Money -= workingFee;
-                Money += workingFee;
+                user.Money -= WorkingFee;
+                Money += WorkingFee;
             }
             else
             {
@@ -58,6 +61,7 @@ namespace Szaki_kereso
             info.AddValue("Adress", Adress);
             info.AddValue("Specialization", Specialization);
             info.AddValue("Money", Money);
+            info.AddValue("Working Fee", WorkingFee);
         }
         public Handyman()
         {
@@ -73,6 +77,7 @@ namespace Szaki_kereso
             Adress = (string)info.GetValue("Adress", typeof(string));
             Specialization = (string)info.GetValue("Specialization", typeof(string));
             Money = (int)info.GetValue("Money", typeof(int));
+            WorkingFee = (int)info.GetValue("Working Fee", typeof(int));
         }
     }
 }

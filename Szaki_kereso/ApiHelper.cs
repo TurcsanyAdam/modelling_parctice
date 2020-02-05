@@ -7,7 +7,7 @@ namespace Szaki_kereso
 {
     public static class ApiHelper
     {
-        public static HttpClient ApiClient { get; set; } = new HttpClient();
+        internal static HttpClient ApiClient { get; set; } = new HttpClient();
 
         public static void InitializeClient()
         {

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Szaki_kereso_console": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "GoogleMapsAPI": "AIzaSyA2VDeHXyseqIZ6PDPjBNIVmWXBeOeMT8w"
+      }
+    }
+  }
+}
