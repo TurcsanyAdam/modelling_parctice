@@ -12,15 +12,22 @@ namespace Szaki_kereso
     {
         private string filepathUser = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "User_data.xml");
         private string filepathHandyman = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Handyman.xml");
+        Initializer initializer;
 
-
-        public void SaveData(Login login)
+        public Serializer(Initializer initializer)
         {
-            SerializeUser(login.UserList);
-            SerializeHandyMen(login.HandymanList);
+            this.initializer = initializer;
+            DeserializerHandyMen();
+            DeserializerUser();
         }
 
-        public void DeserializerUser(Login login)
+        public void SaveData()
+        {
+            SerializeUser();
+            SerializeHandyMen();
+        }
+
+        public void DeserializerUser()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
 
@@ -28,7 +35,7 @@ namespace Szaki_kereso
             {
                 using (FileStream fs = File.OpenRead(filepathUser))
                 {
-                    login.UserList = (List<User>)serializer.Deserialize(fs);
+                    initializer.UserList = (List<User>)serializer.Deserialize(fs);
                 }
             }
             else
@@ -38,15 +45,15 @@ namespace Szaki_kereso
 
         }
 
-        public void SerializeUser(List<User> userList)
+        public void SerializeUser()
         {
             using (Stream fs = new FileStream(filepathUser, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
-                serializer.Serialize(fs, userList);
+                serializer.Serialize(fs, initializer.UserList);
             }
         }
-        public void DeserializerHandyMen(Login login)
+        public void DeserializerHandyMen()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Handyman>));
 
@@ -54,23 +61,23 @@ namespace Szaki_kereso
             {
                 using (FileStream fs = File.OpenRead(filepathHandyman))
                 {
-                    login.HandymanList = (List<Handyman>)serializer.Deserialize(fs);
+                    initializer.HandymanList = (List<Handyman>)serializer.Deserialize(fs);
                 }
             }
             else
             {
-                login.GenerateHandymanFromCsv();
-                SaveData(login);
+                initializer.GenerateHandymanFromCsv();
+                SaveData();
                 
             }
         }
 
-        public void SerializeHandyMen(List<Handyman> handymanList)
+        public void SerializeHandyMen()
         {
             using (Stream fs = new FileStream(filepathHandyman, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(List<Handyman>));
-                serializer.Serialize(fs, handymanList);
+                serializer.Serialize(fs, initializer.handymanList);
             }
         }
     }

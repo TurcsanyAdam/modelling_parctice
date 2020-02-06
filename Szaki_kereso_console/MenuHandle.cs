@@ -10,12 +10,14 @@ namespace Szaki_kereso_console
         ILogger logger;
         DistanceProcess distanceProcess = null;
         User currentUser;
+        Initializer initializer;
         Login login;
         Serializer serializer;
         HandymanProcessor handymanProcessor;
-        public MenuHandle(ILogger logger, Login login, Serializer serializer)
+        public MenuHandle(ILogger logger, Initializer initializer, Login login, Serializer serializer)
         {
             this.logger = logger;
+            this.initializer = initializer;
             this.login = login;
             this.serializer = serializer;
             HandleMenu();
@@ -39,21 +41,21 @@ namespace Szaki_kereso_console
                 switch (userChocie)
                 {
                     case 1:
-                        string username = login.UserLogin(login.loginInfo);
-                        this.currentUser = (login.UserList).Find(x => x.Username == username);
-                        distanceProcess = new DistanceProcess(currentUser, login);
+                        string username = login.UserLogin(initializer.loginInfo);
+                        this.currentUser = (initializer.UserList).Find(x => x.Username == username);
+                        distanceProcess = new DistanceProcess(currentUser, initializer);
                         handymanProcessor = new HandymanProcessor();
                         LoginMenu(login, serializer);
                         break;
                     case 2:
                         login.RegisterUser();
-                        serializer.SaveData(login);
+                        serializer.SaveData();
                         break;
                     case 3:
-                        serializer.SaveData(login);
+                        serializer.SaveData();
                         break;
                     case 4:
-                        serializer.SaveData(login);
+                        serializer.SaveData();
                         Environment.Exit(0);
                         break;
                     default:
@@ -161,7 +163,7 @@ namespace Szaki_kereso_console
                             throw new ArgumentException("Not a valid input");
                         }
 
-                        serializer.SaveData(login);
+                        serializer.SaveData();
                         break;
                     case 6:
                         UpdateAccountInformation(currentUser);

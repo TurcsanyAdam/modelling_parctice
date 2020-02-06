@@ -16,12 +16,10 @@ namespace Szaki_kereso_console
             try
             {
                 ApiHelper.InitializeClient();
-                Login login = new Login();
-                Serializer serializer = new Serializer();
-
-                serializer.DeserializerHandyMen(login);
-                serializer.DeserializerUser(login);
-                MenuHandle menu = new MenuHandle(logger,login,serializer);
+                Initializer initializer = new Initializer();
+                Login login = new Login(initializer);
+                Serializer serializer = new Serializer(initializer);
+                MenuHandle menu = new MenuHandle(logger,initializer,login,serializer);
             }
             catch(Exception ex)
             {

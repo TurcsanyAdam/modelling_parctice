@@ -2,59 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using Szaki_kereso;
 
-namespace Szaki_kereso
+namespace Szaki_kereso_console
 {
     public class Login
     {
+        Initializer initializer;
 
-        public List<User> UserList = new List<User>();
-
-        private readonly Dictionary<string, string> LoginInfo = new Dictionary<string, string>();
-        public IReadOnlyDictionary<string, string> loginInfo { get { return LoginInfo; } }
-
-        internal List<Handyman> HandymanList = new List<Handyman>();
-        internal IReadOnlyList<Handyman> handymanList { get { return HandymanList; } }
-        public Login()
+        public Login(Initializer initializer)
         {
-            GenerateUserPasswordPairs();
+            this.initializer = initializer;
         }
-
-        public void GenerateUserPasswordPairs()
-        {
-            string filepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Login_details.csv");
-
-            if (File.Exists(filepath) && new FileInfo(filepath).Length >0)
-            {
-                using (var reader = new StreamReader(filepath))
-                {
-                    while (!reader.EndOfStream)
-                    {
-                        var line = reader.ReadLine();
-                        var values = line.Split(',');
-                        LoginInfo.Add(values[0], values[1]);
-                    }
-
-                }
-            }
-
-        }
-
-        public void GenerateHandymanFromCsv()
-        {
-            using (var reader = new StreamReader(@"..\\..\\..\\Handyman_details.csv"))
-            {
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    var values = line.Split(',');
-                    Handyman handyman = new Handyman(values[0],values[1],values[2],int.Parse(values[3]),values[4],values[5],values[6]);
-                    HandymanList.Add(handyman);
-                }
-
-            }
-        }
-
 
         public string UserLogin(IReadOnlyDictionary<string, string> loginInfo)
         {
@@ -123,6 +82,10 @@ namespace Szaki_kereso
             int age = int.Parse(Console.ReadLine());
             Console.Write("Please enter your email here: ");
             string email = Console.ReadLine();
+            if (!Utility.IsValidEmail(email))
+            {
+                throw new ArgumentException("Not a vaild email");
+            }
             Console.Write("Please enter your city here: ");
             string city = Console.ReadLine();
             Console.Write("Please enter your street name here: ");
@@ -135,11 +98,11 @@ namespace Szaki_kereso
             string prove = Console.ReadLine().ToLower();
             if (prove.Equals("kutya"))
             {
-                LoginInfo.Add(username, hash);
+                initializer.LoginInfo.Add(username, hash);
                 string loginDetails = username + "," + hash + "\n";
                 File.AppendAllText(filepath, loginDetails);
                 User user = new User(username, firstName, lastName, age, email, adress);
-                UserList.Add(user);
+                initializer.UserList.Add(user);
                 Utility.SendMail(email);
 
 
@@ -151,3 +114,4 @@ namespace Szaki_kereso
         }
     }
 }
+

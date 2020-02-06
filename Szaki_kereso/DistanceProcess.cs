@@ -11,16 +11,19 @@ namespace Szaki_kereso
     public class DistanceProcess
     {
         public Dictionary<Handyman, double> handymenWithRadius = new Dictionary<Handyman, double>();
-
-        public DistanceProcess(User user, Login login)
+        Initializer initializer;
+        User user;
+        public DistanceProcess(User user, Initializer initializer)
         {
-            var a = LoadAllHandyman(user, login);
+            this.initializer = initializer;
+            this.user = user;
+            var a = LoadAllHandyman();
             a.Wait();
         }
 
-        public async Task LoadAllHandyman(User user, Login login)
+        public async Task LoadAllHandyman()
         {
-            foreach (Handyman handyman in login.handymanList)
+            foreach (Handyman handyman in initializer.handymanList)
             {
                 string origin = user.Adress;
                 string destination = handyman.Adress;
