@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Szaki_kereso\Szaki_kereso.csproj" />
-    <ProjectReference Include="..\Szaki_kereso_DLL\Szaki_kereso_DLL.csproj" />
   </ItemGroup>
 
 </Project>

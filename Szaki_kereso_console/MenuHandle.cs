@@ -8,7 +8,7 @@ namespace Szaki_kereso_console
     public class MenuHandle
     {
         ILogger logger;
-        DistanceProcess distanceProcess = null;
+        DistanceProcess distanceProcess;
         User currentUser;
         Initializer initializer;
         Login login;
