@@ -17,6 +17,8 @@ namespace Szaki_kereso
         public string Specialization { get; set; }
         public int Money { get; set; }
         public int WorkingFee { get; set; }
+
+        // Iinitializes handyman
         public Handyman(string aUsername, string aFirstName, string aLastName, int aAge, string aEmail, string aAdress, string aSpecialization)
         {
             Username = aUsername;
@@ -30,6 +32,7 @@ namespace Szaki_kereso
             WorkingFee = rand.Next(1, 100) * 10;
         }
 
+        // Allows user with enough money to work with handyman 
         public void Work(User user)
         {
             if(WorkingFee <= user.Money)
@@ -39,7 +42,7 @@ namespace Szaki_kereso
             }
             else
             {
-                throw new ArgumentException("Not enough money for this job!");
+                throw new NoMoneyForWorkException("Not enough money for this job!");
             }
 
         }
@@ -51,6 +54,7 @@ namespace Szaki_kereso
             return result;
         }
 
+        // Helper method for serialization
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Username", Username);
@@ -67,6 +71,7 @@ namespace Szaki_kereso
         {
 
         }
+        // Helper method for serialization
         public Handyman(SerializationInfo info, StreamingContext context)
         {
             Username = (string)info.GetValue("User Name", typeof(string));

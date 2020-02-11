@@ -9,14 +9,15 @@ namespace Szaki_kereso
     {
         public List<User> UserList = new List<User>();
 
-        public List<Handyman> HandymanList = new List<Handyman>();
-        public IReadOnlyList<Handyman> handymanList { get { return HandymanList; } }
+        internal List<Handyman> HandymanList = new List<Handyman>();
+        internal IReadOnlyList<Handyman> handymanList { get { return HandymanList; } }
         public readonly Dictionary<string, string> LoginInfo = new Dictionary<string, string>();
         public IReadOnlyDictionary<string, string> loginInfo { get { return LoginInfo; } }
         public Initializer()
         {
             GenerateUserPasswordPairs();
         }
+        // Generates username-password pairs to a dictionary for registered accounts
         public void GenerateUserPasswordPairs()
         {
             string filepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Login_details.csv");
@@ -37,6 +38,7 @@ namespace Szaki_kereso
 
         }
 
+        //Creates handyman instances using data from CSV
         public void GenerateHandymanFromCsv()
         {
             using (var reader = new StreamReader(@"..\\..\\..\\Handyman_details.csv"))

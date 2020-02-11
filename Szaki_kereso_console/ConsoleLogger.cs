@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Szaki_kereso_console
 {
+    // Console logging implementation for Ilogger interface
     public class ConsoleLogger : ILogger
     {
         public void Info(string message)

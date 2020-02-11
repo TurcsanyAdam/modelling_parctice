@@ -13,6 +13,8 @@ namespace Szaki_kereso
         public Dictionary<Handyman, double> handymenWithRadius = new Dictionary<Handyman, double>();
         Initializer initializer;
         User user;
+
+        // Calls async funciton and waits for result upon instantiation
         public DistanceProcess(User user, Initializer initializer)
         {
             this.initializer = initializer;
@@ -21,6 +23,7 @@ namespace Szaki_kereso
             a.Wait();
         }
 
+        // Fills up a dicitonary with the distance between the current logged in user and every handymen.
         public async Task LoadAllHandyman()
         {
             foreach (Handyman handyman in initializer.handymanList)

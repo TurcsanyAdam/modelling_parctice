@@ -14,6 +14,8 @@ namespace Szaki_kereso_console
         Login login;
         Serializer serializer;
         HandymanProcessor handymanProcessor;
+
+        //Initializes Menuhandle
         public MenuHandle(ILogger logger, Initializer initializer, Login login, Serializer serializer)
         {
             this.logger = logger;
@@ -22,6 +24,7 @@ namespace Szaki_kereso_console
             this.serializer = serializer;
             HandleMenu();
         }
+        //Handles first menu
         public void HandleMenu()
         {
             while (true)
@@ -37,7 +40,7 @@ namespace Szaki_kereso_console
                 int userChocie = int.Parse(Console.ReadLine());
 
 
-
+                // Calls functions according to user choice
                 switch (userChocie)
                 {
                     case 1:
@@ -45,7 +48,7 @@ namespace Szaki_kereso_console
                         this.currentUser = (initializer.UserList).Find(x => x.Username == username);
                         distanceProcess = new DistanceProcess(currentUser, initializer);
                         handymanProcessor = new HandymanProcessor();
-                        LoginMenu(login, serializer);
+                        LoginMenu();
                         break;
                     case 2:
                         login.RegisterUser();
@@ -59,7 +62,8 @@ namespace Szaki_kereso_console
                         Environment.Exit(0);
                         break;
                     default:
-                        Console.WriteLine("Not a valid input");
+                        logger.Error("Not a valid input. Press ENTER to proceed");
+                        Console.ReadLine();
                         break;
 
 
@@ -68,7 +72,9 @@ namespace Szaki_kereso_console
 
 
         }
-        public void LoginMenu(Login login, Serializer serializer)
+
+        //Handles menu after successfull login
+        public void LoginMenu()
         {
 
             while (true)
@@ -89,7 +95,7 @@ namespace Szaki_kereso_console
                 int userChocie = int.Parse(Console.ReadLine());
 
 
-
+                // Calls functions based on user choice
                 switch (userChocie)
                 {
                     case 1:
@@ -136,7 +142,6 @@ namespace Szaki_kereso_console
                             logger.Info("Work done! Transaction complete.  Press ENTER to proceed!");
 
                         }
-                        logger.Info("Press ENTER to proceed!");
                         Console.ReadLine();
                         break;
                     case 4:
@@ -179,7 +184,8 @@ namespace Szaki_kereso_console
                         Console.ReadLine();
                         break;
                     default:
-                        Console.WriteLine("Not a valid input");
+                        logger.Error("Not a valid input. Press ENTER to proceed");
+                        Console.ReadLine();
                         break;
 
                 }
@@ -196,7 +202,8 @@ namespace Szaki_kereso_console
                     "2 - Update last name\n" +
                     "3 - Update age\n" +
                     "4 - Update email\n" +
-                    "5 - Update adress\n";
+                    "5 - Update adress\n" +
+                    "6 - Back to main menu\n";
             Console.WriteLine(menu);
             Console.Write("Enter a number to navigate the menu: ");
             int userChocie = int.Parse(Console.ReadLine());
@@ -248,8 +255,12 @@ namespace Szaki_kereso_console
                     logger.Info("Data modified successfully! Press ENTER to proceed!");
                     Console.ReadLine();
                     break;
+                case 6:
+                    LoginMenu();
+                    break;
                 default:
-                    Console.WriteLine("Not a valid input");
+                    logger.Error("Not a valid input. Press ENTER to proceed");
+                    Console.ReadLine();
                     break;
 
 

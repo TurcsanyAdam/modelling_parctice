@@ -10,11 +10,13 @@ namespace Szaki_kereso_console
     {
         Initializer initializer;
 
+        // Initializes Login
         public Login(Initializer initializer)
         {
             this.initializer = initializer;
         }
 
+        // Validates if user had already registered
         public string UserLogin(IReadOnlyDictionary<string, string> loginInfo)
         {
 
@@ -45,9 +47,10 @@ namespace Szaki_kereso_console
             }
             else
             {
-                throw new ArgumentException("Invalid username of password");
+                throw new AuthenticationFailedException("Invalid username of password");
             }
         }
+        // Allows registartion for first-time users
         public void RegisterUser()
         {
             string filepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Login_details.csv");
@@ -91,8 +94,8 @@ namespace Szaki_kereso_console
             Console.Write("Please enter your street name here: ");
             string street = Console.ReadLine();
             Console.Write("Please enter your house number here: ");
-            string houseNumber = Console.ReadLine();
-            string adress = $"{houseNumber}+{street.Replace(" ", "")}+{city}";
+            int houseNumber = int.Parse(Console.ReadLine());
+            string adress = $"{Convert.ToString(houseNumber)}+{street.Replace(" ", "")}+{city}";
 
             Console.Write("To prove that you are not a robot, enter dog in hungarian: ");
             string prove = Console.ReadLine().ToLower();
@@ -109,7 +112,7 @@ namespace Szaki_kereso_console
             }
             else
             {
-                throw new ArgumentException("You are a robot! Access denied!");
+                throw new AuthenticationFailedException("You are a robot! Access denied!");
             }
         }
     }

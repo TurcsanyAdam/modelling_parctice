@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Szaki_kereso
 {
+    // Classes for JSON parsing
     public class DistanceResult
     {
         public class Distance

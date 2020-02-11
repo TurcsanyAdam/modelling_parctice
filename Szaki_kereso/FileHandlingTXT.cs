@@ -7,6 +7,7 @@ namespace Szaki_kereso
 {
     public class FileHandlingTXT : FileHandling
     {
+        //Handles file writing to TXT
         public override void WriteToFile(Dictionary<Handyman, double> handymenInRadius)
         {
             string path = Path.Combine(filePath, "HandymanInRadius.txt");

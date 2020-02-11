@@ -6,6 +6,7 @@ namespace Szaki_kereso
 {
     public class HandymanProcessor
     {
+        // Finds closest handyman according to distance from user
         public Dictionary<Handyman, double> GetClosestHandyman(DistanceProcess distanceProcess)
         {
             Handyman closestHandyman = null;
@@ -26,6 +27,7 @@ namespace Szaki_kereso
 
         }
 
+        // Finds all handyman in a radius according to distance from user
         public Dictionary<Handyman, double> GetHandymanInRadius(DistanceProcess distanceProcess, double distance)
         {
             Dictionary<Handyman, double> handymenInRadius = new Dictionary<Handyman, double>();
@@ -41,6 +43,7 @@ namespace Szaki_kereso
             return handymenInRadius;
         }
 
+        // Finds handyman according to username
         public Handyman GetHandymanByUsername(DistanceProcess distanceProcess, string username)
         {
             foreach (KeyValuePair<Handyman, double> kvp in distanceProcess.handymenWithRadius)
@@ -54,6 +57,7 @@ namespace Szaki_kereso
             throw new ArgumentException ("Handyman not in database");
 
         }
+        // Finds handyman according to specialization
         public Dictionary<Handyman, double> GetHandymanBySpecialization(DistanceProcess distanceProcess, string specialization)
         {
             Dictionary<Handyman, double> handymenBySpecialization = new Dictionary<Handyman, double>();

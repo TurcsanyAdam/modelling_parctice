@@ -27,6 +27,7 @@ namespace Szaki_kereso
             }
         }
 
+        // Send confirmation email to users adress 
         public static void SendMail(string emailToAdress)
         {
             string subjectText = "(Registartion complete! )";
@@ -39,6 +40,7 @@ namespace Szaki_kereso
                 mail.Body = emailBodyText;
                 mail.IsBodyHtml = true;
 
+                //587 port = gmail
                 using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
                     smtp.Credentials = new NetworkCredential("szakikereso2020@gmail.com", "Szakikereso94");
@@ -48,6 +50,7 @@ namespace Szaki_kereso
             }
         }
 
+        //Checks if email address is in valid format(xx@yy.zz)
         public static bool IsValidEmail(string email)
         {
             try

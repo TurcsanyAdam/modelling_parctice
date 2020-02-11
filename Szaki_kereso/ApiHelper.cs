@@ -7,6 +7,7 @@ namespace Szaki_kereso
 {
     public static class ApiHelper
     {
+        // Initializes an TCP/IP port to allow api calls with json return
         internal static HttpClient ApiClient { get; set; } = new HttpClient();
 
         public static void InitializeClient()

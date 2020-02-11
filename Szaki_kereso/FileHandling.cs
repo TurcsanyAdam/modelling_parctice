@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Szaki_kereso
 {
+    // Handles exporting data to file
     public abstract class FileHandling
     {
         protected string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);

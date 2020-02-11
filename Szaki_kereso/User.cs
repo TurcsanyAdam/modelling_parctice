@@ -19,6 +19,7 @@ namespace Szaki_kereso
         public string Adress { get; set; }
         public int Money { get; set; }
 
+        // Initializes User
         public User(string aUsername, string aFirstName, string aLastName, int aAge, string aEmail, string aAdress)
         {
             Username = aUsername;
@@ -29,6 +30,7 @@ namespace Szaki_kereso
             Adress = aAdress;
         }
 
+        // Modifies money according to user input
         public void AddMoney(int moneyAmount)
         {
             Money += moneyAmount;
@@ -40,6 +42,7 @@ namespace Szaki_kereso
             return result;
         }
 
+        // Helper method for serialization
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Username", Username);
@@ -54,6 +57,7 @@ namespace Szaki_kereso
         {
 
         }
+        // Helper method for serialization
         public User(SerializationInfo info, StreamingContext context)
         {
             Username = (string)info.GetValue("User Name", typeof(string));
