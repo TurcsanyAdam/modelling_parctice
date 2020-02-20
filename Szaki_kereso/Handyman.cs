@@ -42,7 +42,7 @@ namespace Szaki_kereso
             }
             else
             {
-                throw new NoMoneyForWorkException("Not enough money for this job!");
+                throw new NoMoneyForWorkException(Username);
             }
 
         }

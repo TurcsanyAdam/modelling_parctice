@@ -33,7 +33,7 @@ namespace Szaki_kereso
         // Modifies money according to user input
         public void AddMoney(int moneyAmount)
         {
-            Money += moneyAmount;
+            Money += Math.Abs(moneyAmount);
         }
 
         public override string ToString()

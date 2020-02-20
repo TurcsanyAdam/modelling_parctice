@@ -12,8 +12,8 @@ namespace Szaki_kereso
 
         }
 
-        public NoMoneyForWorkException(string message)
-            :base(message)
+        public NoMoneyForWorkException(string name)
+            : base($"Not enought money for this job to work with {name}")
         {
 
         }
