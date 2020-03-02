@@ -44,12 +44,21 @@ namespace Szaki_kereso
 
                         foreach (var item in root.rows)
                         {
-                            handymenWithRadius.Add(handyman, item.elements[0].distance.value);
+                            if(item.elements[0].status == "NOT_FOUND" )
+                            {
+                                throw new NotAValidAddressException();
+
+                            }
+                            else
+                            {
+                                handymenWithRadius.Add(handyman, item.elements[0].distance.value);
+                            }
                         }
                     }
                     else
                     {
-                        throw new Exception(response.ReasonPhrase);
+                        throw new Exception("Not valid address");
+                        //throw new Exception(response.ReasonPhrase);
                     }
                 }
 
